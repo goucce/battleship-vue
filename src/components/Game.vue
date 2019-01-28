@@ -39,10 +39,41 @@ export default {
         db.ref('chats')
         .on('value', snapshot => this.cargarMensajes(snapshot.val())) //on -- se actualiza todo el rato
                                                                       //once -- solamente la primera vez
+//****************************** */
 
-  }, 
+    //Hacemos referencia a guardar en otro lado de la base de datos la key de un elemento
+        const key = db.ref('/chats').push().key;
+        db.ref('/chats').child(key).set({
+            mensaje: 'hola set',
+            username: 'juan',
+        });
+
+        db.ref('/perfiles')
+            .child('marius').child('chats').child(key)
+            .set(true)
+    //Hacemos referencia a guardar en otro lado de la base de datos la key de un elemento -- fin
+
+//****************************** */
+    //Listar todos los datos que tenemos en la base de datos
+    const chats = db.ref('/chats');
+    
+    //childAdded --- vemos array con todos los datos lo que hay dentro de chats
+    // chats.on('child_added', (data) => console.log(data.val()));
+
+    //childChange --- Cuando cambie un dato de la base de datos nos mostrará ese que ha cambiado
+    // chats.on('child_changed', (data) => console.log(data.val()));
+
+    //childRemoved --- Devuelve lo que había dentro de ese elemento que hemos eliminado
+    chats.on('child_removed', (data) => console.log(data.val()));
+
+
+
+
+
+    }, 
 
   methods: {
+
     logout() {
       firebase
         .auth()
