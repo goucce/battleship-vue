@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/Login'
-import Battleship from '@/components/Battleship'
+import Home from '@/components/Home'
 import Registro from '@/components/Registro'
+import Game from '@/components/Game'
 import firebase from 'firebase'
 
 Vue.use(Router)
@@ -30,11 +31,20 @@ const router = new Router({
     {
       path: '/home',
       name: 'Home ',
-      component: Battleship,
+      component: Home,
       meta: {
         autentificado: true
       }
-    }    
+    },
+    {
+      path: '/game',
+      name: 'Game ',
+      component: Game,
+      meta: {
+        autentificado: true
+      }
+    },
+
   ]
 })
 

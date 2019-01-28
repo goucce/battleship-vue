@@ -18,6 +18,18 @@ var config = {
 };
 firebase.initializeApp(config);
 
+//Guardar referencia en base de datos
+var db = firebase.database();
+
+//Guardar info de perfil en base de datos
+db.ref('/perfiles/marius').set({
+    username: 'marius',
+    password: 1234567,
+    ciudad: 'Valencia'
+}).then(()=> console.info('Datos añadidos'))
+
+//Guardar nuevos datos anidados en forma de lista
+
 firebase.auth().onAuthStateChanged(function(user ){
     /* eslint-disable no-new */
     new Vue({

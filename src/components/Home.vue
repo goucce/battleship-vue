@@ -1,8 +1,8 @@
 <template>
   <div>
       <a href="#" @click="logout">Logout</a>
-      <h2>Componente Hundir la flota</h2>
-    
+      <h2>Todas las partidas del jugador</h2>
+      <button @click="game">Juagar partida</button>
   </div>
 </template>
 
@@ -10,15 +10,18 @@
 import firebase from 'firebase'
 
 export default {
-  name: 'Battleship',
+  name: 'Home',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
   },
   methods: {
-    logout() {
+    logout () {
       firebase.auth().signOut().then(()=> this.$router.replace('login'))
+    },
+    game () {
+      this.$router.replace('game')
     }
   }
 }
