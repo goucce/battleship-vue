@@ -1,150 +1,264 @@
 <template>
   <div>
-      <a href="#" @click="logout">Logout</a>
-      <h2>Lógica del juego</h2>
-
-      <form id="Formulario" @submit.prevent="enviarMensaje">
-          <textarea name="mensaje" v-model="mensaje" id="mensaje" cols="30" rows="10"></textarea>
-          <br>
-          <input type="submit" value="enviar">
-      </form>
-      <hr>
-      <h1>Mensajes</h1>
-      <ul>
-          <li v-for="mensaje in mensajes" :key="mensaje.id">
-             <span contenteditable="true" @blur="editarMensaje($event, mensaje.key)" >{{mensaje.mensaje}} </span>
-              <small><i>({{mensaje.username}})</i></small>  
-              <button @click="eliminarMensaje(mensaje.key)">x</button>            
-          </li>
-      </ul>
+    <a href="#" @click="logout">Logout</a>
+    <h2>HUNDIR LA FLOTA GAME</h2>
+    <button @click="back"> atras </button>
+    <br>
+    
+    <div class="total-game">
+        <div class="nombres-jugador"></div>
+        <div class="tablero-multiplayer">
+            <div class="tablero-jugador" v-for="jugador in jugadores" :key="jugador.key">
+                <span>{{jugador.nombre}}</span>
+                <div class="tablero">
+                    <table class="board">
+                        <tr>
+                            <td class="cuadrado punto1">x</td>
+                            <td class="cuadrado punto2">x</td>
+                            <td class="cuadrado punto3">x</td>
+                            <td class="cuadrado punto4">x</td>
+                            <td class="cuadrado punto5">x</td>
+                            <td class="cuadrado punto6">x</td>
+                            <td class="cuadrado punto7">x</td>
+                            <td class="cuadrado punto8">x</td>
+                            <td class="cuadrado punto9">x</td>
+                            <td class="cuadrado punto10">x</td>                
+                        </tr>
+                        <tr>
+                            <td class="cuadrado punto12">x</td>
+                            <td class="cuadrado punto22">x</td>
+                            <td class="cuadrado punto32">x</td>
+                            <td class="cuadrado punto42">x</td>
+                            <td class="cuadrado punto52">x</td>
+                            <td class="cuadrado punto62">x</td>
+                            <td class="cuadrado punto72">x</td>
+                            <td class="cuadrado punto82">x</td>
+                            <td class="cuadrado punto92">x</td>
+                            <td class="cuadrado punto102">x</td> 
+                        </tr>
+                        <tr>
+                            <td class="cuadrado punto13">x</td>
+                            <td class="cuadrado punto23">x</td>
+                            <td class="cuadrado punto33">x</td>
+                            <td class="cuadrado punto43">x</td>
+                            <td class="cuadrado punto53">x</td>
+                            <td class="cuadrado punto63">x</td>
+                            <td class="cuadrado punto73">x</td>
+                            <td class="cuadrado punto83">x</td>
+                            <td class="cuadrado punto93">x</td>
+                            <td class="cuadrado punto103">x</td>
+                        </tr>
+                        <tr>
+                            <td class="cuadrado punto14">x</td>
+                            <td class="cuadrado punto24">x</td>
+                            <td class="cuadrado punto34">x</td>
+                            <td class="cuadrado punto44">x</td>
+                            <td class="cuadrado punto54">x</td>
+                            <td class="cuadrado punto64">x</td>
+                            <td class="cuadrado punto74">x</td>
+                            <td class="cuadrado punto84">x</td>
+                            <td class="cuadrado punto94">x</td>
+                            <td class="cuadrado punto104">x</td>
+                            
+                        </tr>
+                        <tr>
+                            <td class="cuadrado punto15">x</td>
+                            <td class="cuadrado punto25">x</td>
+                            <td class="cuadrado punto35">x</td>
+                            <td class="cuadrado punto45">x</td>
+                            <td class="cuadrado punto55">x</td>
+                            <td class="cuadrado punto65">x</td>
+                            <td class="cuadrado punto75">x</td>
+                            <td class="cuadrado punto85">x</td>
+                            <td class="cuadrado punto95">x</td>
+                            <td class="cuadrado punto105">x</td>
+                        </tr>
+                        <tr>
+                            <td class="cuadrado punto16">x</td>
+                            <td class="cuadrado punto26">x</td>
+                            <td class="cuadrado punto36">x</td>
+                            <td class="cuadrado punto46">x</td>
+                            <td class="cuadrado punto56">x</td>
+                            <td class="cuadrado punto66">x</td>
+                            <td class="cuadrado punto76">x</td>
+                            <td class="cuadrado punto86">x</td>
+                            <td class="cuadrado punto96">x</td>
+                            <td class="cuadrado punto106">x</td>
+                        </tr>
+                        <tr>
+                            <td class="cuadrado punto17">x</td>
+                            <td class="cuadrado punto27">x</td>
+                            <td class="cuadrado punto37">x</td>
+                            <td class="cuadrado punto47">x</td>
+                            <td class="cuadrado punto57">x</td>
+                            <td class="cuadrado punto67">x</td>
+                            <td class="cuadrado punto77">x</td>
+                            <td class="cuadrado punto87">x</td>
+                            <td class="cuadrado punto97">x</td>
+                            <td class="cuadrado punto107">x</td>
+                        </tr>
+                        <tr>
+                            <td class="cuadrado punto18">x</td>
+                            <td class="cuadrado punto28">x</td>
+                            <td class="cuadrado punto38">x</td>
+                            <td class="cuadrado punto48">x</td>
+                            <td class="cuadrado punto58">x</td>
+                            <td class="cuadrado punto68">x</td>
+                            <td class="cuadrado punto78">x</td>
+                            <td class="cuadrado punto88">x</td>
+                            <td class="cuadrado punto98">x</td>
+                            <td class="cuadrado punto108">x</td>
+                        </tr>
+                        <tr>
+                            <td class="cuadrado punto19">x</td>
+                            <td class="cuadrado punto29">x</td>
+                            <td class="cuadrado punto39">x</td>
+                            <td class="cuadrado punto49">x</td>
+                            <td class="cuadrado punto59">x</td>
+                            <td class="cuadrado punto69">x</td>
+                            <td class="cuadrado punto79">x</td>
+                            <td class="cuadrado punto89">x</td>
+                            <td class="cuadrado punto99">x</td>
+                            <td class="cuadrado punto109">x</td>
+                        </tr>
+                        <tr>
+                            <td class="cuadrado punto10">x</td>
+                            <td class="cuadrado punto20">x</td>
+                            <td class="cuadrado punto30">x</td>
+                            <td class="cuadrado punto40">x</td>
+                            <td class="cuadrado punto50">x</td>
+                            <td class="cuadrado punto60">x</td>
+                            <td class="cuadrado punto70">x</td>
+                            <td class="cuadrado punto80">x</td>
+                            <td class="cuadrado punto90">x</td>
+                            <td class="cuadrado punto100">x</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="barcos-box">
+                    <span v-for="barco in barcos" :key="barco.key">{{barco.nombre}}</span>
+                </div>
+                
+            </div>
+            <!-- <div class="tablero-jugador">
+                <span>Nombre</span>
+                <div class="tablero">
+                </div>
+                <span>Barcos</span>
+            </div> -->
+        </div>  
+    </div>
   </div>
 </template>
 
 <script>
-import firebase, { functions } from "firebase";
+import firebase from 'firebase'
 
 export default {
-  name: "Game",
-  data  () {
+  name: 'Home',
+  data () {
     return {
-        mensaje: null,
-        username: 'juan',
-        mensajes: []
-          
-    };
-  },
-  created () {
-     //devolveremos todo lo que tenemos en la base de datos de referencia chats 
-    const db = firebase.database();
-        db.ref('chats')
-        .on('value', snapshot => this.cargarMensajes(snapshot.val())) //on -- se actualiza todo el rato
-                                                                      //once -- solamente la primera vez
-//****************************** */
+        jugadores: [
+            {
+            nombre: 'jugador 1',      
+            },
+            {
+            nombre: 'jugador 2',      
+            },            
+        ],
+        barcos: [
+            {
+            nombre: 'Carrier',
+            tamaño: 5,
 
-    //Hacemos referencia a guardar en otro lado de la base de datos la key de un elemento
-        const key = db.ref('/chats').push().key;
-        db.ref('/chats').child(key).set({
-            mensaje: 'hola set',
-            username: 'juan',
-        });
+            },
+            {
+            nombre: 'Battleship',
+            tamaño: 4,
 
-        db.ref('/perfiles')
-            .child('marius').child('chats').child(key)
-            .set(true)
-    //Hacemos referencia a guardar en otro lado de la base de datos la key de un elemento -- fin
+            },
+            {
+            nombre: 'Cruiser',
+            tamaño: 3,
 
-//****************************** */
-    //Listar todos los datos que tenemos en la base de datos
-    const chats = db.ref('/chats');
-    
-    //childAdded --- vemos array con todos los datos lo que hay dentro de chats
-    // chats.on('child_added', (data) => console.log(data.val()));
+            },
+            {
+            nombre: 'Submarine',
+            tamaño: 3,
 
-    //childChange --- Cuando cambie un dato de la base de datos nos mostrará ese que ha cambiado
-    // chats.on('child_changed', (data) => console.log(data.val()));
+            },
+            {
+            nombre: 'Destroyer',
+            tamaño: 2,
 
-    //childRemoved --- Devuelve lo que había dentro de ese elemento que hemos eliminado
-    chats.on('child_removed', (data) => console.log(data.val()));
+            },         
+        ],
 
-
-
-
-
-    }, 
-
-  methods: {
-
-    logout() {
-      firebase
-        .auth()
-        .signOut()
-        .then(() => this.$router.replace("login"));
-    },
-    
-    //cargamos los mensajes en la variable mensajes que tenemos arriba como array vacio. 
-    cargarMensajes (mensajes) {
-        this.mensajes = [];
-        for (let key in mensajes) {
-            this.mensajes.push({
-                mensaje: mensajes[key].mensaje,
-                username: mensajes[key].username,
-                key: key
-            })            
-        }
-    },
-
-    enviarMensaje () {
-        const db = firebase.database();
-        db
-          .ref("chats")
-          .push({
-            username: this.username,
-            mensaje: this.mensaje
-          })
-          //Aquí se obtendrá la key por la cual se guarda el mensaje en la base de datos
-          .then((data) => {
-            console.info("Mensaje enviado");
-            mensaje.value = "";
-            console.log(data.key);            
-            mensaje.value = "";
-          });
-    },
-
-    editarMensaje (mensaje, key) {
-        const db = firebase.database();
-        console.log(mensaje.target.innerHTML,key);
-        db.ref('/chats/' + key).update({
-            mensaje: mensaje.target.innerHTML
-        });
-    },
-
-    eliminarMensaje (key) {
-        const db = firebase.database();
-        if (confirm('¿Seguro?')) {
-            db.ref('/chats/' + key).remove();
-        }
-
+      
     }
-
+  },
+  methods: {
+    logout () {
+      firebase.auth().signOut().then(()=> this.$router.replace('login'))
+    },
+    back () {
+        this.$router.go(-1)
+    }
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1,
-h2 {
-  font-weight: normal;
+<style lang="" scoped>
+
+.tablero-multiplayer {
+    border: 1px solid grey;
+    /* height: 60vh; */
+    /* width: 80vw; */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;    
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+
+.tablero-jugador {
+    border: 1px solid grey;
+    height: 500px;
+    width: 400px;
+    margin: 15px;
+    display: flex;
+    flex-direction: column;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+
+.tablero {
+    border: 1px solid grey;
+    height: 400px;
+    width: 400px;
+    /* margin: 5px;  */
 }
-a {
-  color: #42b983;
+
+.board {
+    height: 100%;
+    width: 100%;
 }
+
+.cuadrado {
+    border: 1px solid grey;
+    background-color: skyblue;
+
+}
+
+.cuadrado:hover {
+    background-color: gray;
+}
+
+.barcos-box {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 10px;
+}
+
 </style>
+
+
+

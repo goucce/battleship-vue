@@ -1,8 +1,11 @@
 <template>
   <div>
+      <h3>Username: {{this.usuario}}</h3>
       <a href="#" @click="logout">Logout</a>
       <h2>Todas las partidas del jugador</h2>
       <button @click="game">Juagar partida</button>
+      <button @click="goExample">Ejemplos Firebase</button>
+
   </div>
 </template>
 
@@ -11,9 +14,13 @@ import firebase from 'firebase'
 
 export default {
   name: 'Home',
+  // porps:{
+  //     usuario: String,
+  // },
+
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      usuario: firebase.auth().currentUser.email
     }
   },
   methods: {
@@ -22,8 +29,12 @@ export default {
     },
     game () {
       this.$router.replace('game')
+    },
+    goExample () {
+      this.$router.replace('examples')
     }
   }
+  
 }
 </script>
 

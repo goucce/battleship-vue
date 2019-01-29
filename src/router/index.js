@@ -4,6 +4,8 @@ import Login from '@/components/Login'
 import Home from '@/components/Home'
 import Registro from '@/components/Registro'
 import Game from '@/components/Game'
+import Examples from '@/components/Examples'
+
 import firebase from 'firebase'
 
 Vue.use(Router)
@@ -40,6 +42,14 @@ const router = new Router({
       path: '/game',
       name: 'Game ',
       component: Game,
+      meta: {
+        autentificado: true
+      }
+    },
+    {
+      path: '/examples',
+      name: 'Examples',
+      component: Examples,
       meta: {
         autentificado: true
       }

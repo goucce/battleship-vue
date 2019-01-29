@@ -5,7 +5,13 @@
             <input v-model="contrasena" type="password" placeholder="Contraseña">
             <input type="submit" value="Acceder">
         </form>
-        <button @click="registro" >Registrarse</button>
+        <button @click="registro">Registrarse</button>
+
+        <!-- <Home
+        v-if="false"
+        :usuario="usuario"
+        >
+        </Home> -->
 
         <pre>
             {{ $data }}
@@ -15,13 +21,15 @@
 
 <script>
 import firebase from 'firebase';
+// import Home from '@/components/Home.vue'
+
 
 export default {
   name: 'Login',
   data() {
     return {
-      usuario: "",
-      contrasena: ""
+      usuario: null,
+      contrasena: null,
     }
   },
 
@@ -37,6 +45,11 @@ export default {
     registro() {
         this.$router.replace('registro')
     }
+
+  },
+
+  components: {
+    // Home
 
   }
 };
