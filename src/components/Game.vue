@@ -9,7 +9,8 @@
         <div class="nombres-jugador"></div>
         <div class="tablero-multiplayer">
             <div class="tablero-jugador" v-for="jugador in jugadores" :key="jugador.key">
-                <span>{{jugador.nombre}}</span>
+                <!-- <span>{{jugador.nombre}}</span> -->
+                <span>{{usuario}} {{keyUsuario}}</span>
                 <div class="barcos-box">
                     <button 
                     @click="barcoEnTablero(barco)" 
@@ -21,6 +22,7 @@
                         {{barco.nombre}}
                     </button>
                     <button @click="rotarPosicion" class="boton-rotar">Rotar</button>
+                    <button @click="enviarDatos" class="boton-rotar">Jugar</button>
                 </div>   
                 <div class="tablero">
                     <table class="board">
@@ -95,8 +97,10 @@ export default {
         coordenadasBarcos: [],
         posicionSeleccionada: false,
         sumaCoordenadas: [],
-        rotarBarco: false
-      
+        rotarBarco: false,
+        usuario: firebase.auth().currentUser.email,
+        keyUsuario: firebase.auth().currentUser.uid
+              
     }
   },
   methods: {
@@ -123,6 +127,16 @@ export default {
         console.log('tamaño',this.coordenadasBarcos.length);
         this.tamaño = null;
     },
+    enviarDatos () {
+        const db = firebase.database();
+        db
+          .ref("usuarios").child(this.keyUsuario)
+          .push({
+            aUsuario: this.usuario,  
+            coordenadasBarcos: this.coordenadasBarcos,
+          })
+    },
+    
     barcoBloqueado (barco) {
         return barco.cliqueado
     },

@@ -1,6 +1,6 @@
 <template>
   <div>
-      <h3>Username: {{this.usuario}}</h3>
+      <h3>Username: {{usuario}}</h3>
       <a href="#" @click="logout">Logout</a>
       <h2>Todas las partidas del jugador</h2>
       <button @click="game">Juagar partida</button>
