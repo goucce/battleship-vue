@@ -134,6 +134,7 @@ export default {
           .push({
             aUsuario: this.usuario,  
             coordenadasBarcos: this.coordenadasBarcos,
+            IdPartida
           })
     },
     
