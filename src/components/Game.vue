@@ -20,7 +20,7 @@
                     >
                         {{barco.nombre}}
                     </button>
-                    <button class="boton-rotar">Rotar</button>
+                    <button @click="rotarPosicion" class="boton-rotar">Rotar</button>
                 </div>   
                 <div class="tablero">
                     <table class="board">
@@ -94,7 +94,8 @@ export default {
         tamaño: null,
         coordenadasBarcos: [],
         posicionSeleccionada: false,
-        sumaCoordenadas: []
+        sumaCoordenadas: [],
+        rotarBarco: false
       
     }
   },
@@ -112,22 +113,25 @@ export default {
     barcoEnTablero (barco) {
         this.tamaño = barco.tamaño
         console.log(barco.nombre)        
-        barco.cliqueado = true
-        
+        barco.cliqueado = true       
               
     },
     posicionBarco () {
         console.log('coordenadas seleccionadas 1 barco',this.selected);
-        this.coordenadasBarcos.push(...this.selected)  
-
+        this.coordenadasBarcos.push(...this.selected)
         console.log('suma de coordenadas de barcos',this.coordenadasBarcos);  
         console.log('tamaño',this.coordenadasBarcos.length);
-
         this.tamaño = null;
-
     },
     barcoBloqueado (barco) {
         return barco.cliqueado
+    },
+    rotarPosicion () {        
+       if (this.rotarBarco == true) {
+           this.rotarBarco = false
+       } else {
+           this.rotarBarco = true
+       }
     }
     
   },
@@ -142,7 +146,12 @@ export default {
           let selectede = []
           const [x, y] = this.posicion.split(',')
           for (let i = 0; i < this.tamaño; i++) {
-            selectede.push(`${x},${Number(y) + i}`)
+            if (this.rotarBarco==false) {
+                selectede.push(`${x},${Number(y) + i}`)                
+            }else {
+                selectede.push(`${Number(x) + i},${y}`)
+            }
+            
           }
         //   console.log(selectede);          
           return selectede
