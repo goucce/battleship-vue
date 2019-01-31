@@ -11,9 +11,16 @@
             <div class="tablero-jugador" v-for="jugador in jugadores" :key="jugador.key">
                 <span>{{jugador.nombre}}</span>
                 <div class="barcos-box">
-                    <button @click="barcoEnTablero(barco)" v-for="barco in barcos" :key="barco.key">
+                    <button 
+                    @click="barcoEnTablero(barco)" 
+                    v-for="barco in barcos" 
+                    :key="barco.key" 
+                    :disabled="barcoBloqueado(barco)" 
+                    :class="{'barco-bloqueado': barco.cliqueado==true}"
+                    >
                         {{barco.nombre}}
                     </button>
+                    <button class="boton-rotar">Rotar</button>
                 </div>   
                 <div class="tablero">
                     <table class="board">
@@ -21,8 +28,7 @@
                             <td v-for="x in 10" :key="x"
                                 class="cuadrado"
                                 :class="{
-                                    'active': selected && selected.includes(`${x},${y}`),
-                                    
+                                    'active': (selected && selected.includes(`${x},${y}`)) || (coordenadasBarcos && coordenadasBarcos.includes(`${x},${y}`)),
                                     }"
                                 @mouseover="onHover(x,y)"
                                 @click="posicionBarco"
@@ -48,47 +54,51 @@ export default {
             {
             nombre: 'jugador 1',      
             },
-            {
-            nombre: 'jugador 2',      
-            },            
+            // {
+            // nombre: 'jugador 2',      
+            // },            
         ],
         barcos: [
             {
             nombre: 'Carrier',
             tamaño: 5,
+            cliqueado: false
 
             },
             {
             nombre: 'Battleship',
             tamaño: 4,
+            cliqueado: false
 
             },
             {
             nombre: 'Cruiser',
             tamaño: 3,
+            cliqueado: false
 
             },
             {
             nombre: 'Submarine',
             tamaño: 3,
+            cliqueado: false
 
             },
             {
             nombre: 'Destroyer',
             tamaño: 2,
+            cliqueado: false
 
             },         
         ],
         posicion: null,
         tamaño: null,
-        coordenadasBarco: [],
-        
+        coordenadasBarcos: [],
+        posicionSeleccionada: false,
+        sumaCoordenadas: []
       
     }
   },
   methods: {
-    isSelected (x, y) {
-    },
     onHover (x, y) {
         this.posicion = `${x},${y}`
         // console.log(this.posicion);        
@@ -101,31 +111,51 @@ export default {
     },
     barcoEnTablero (barco) {
         this.tamaño = barco.tamaño
+        console.log(barco.nombre)        
+        barco.cliqueado = true
+        
+              
     },
     posicionBarco () {
-        console.log(this.selected);
-        if (!this.selected) return
-        this.coordenadasBarco = this.selected
+        console.log('coordenadas seleccionadas 1 barco',this.selected);
+        this.coordenadasBarcos.push(...this.selected)  
 
-           
+        console.log('suma de coordenadas de barcos',this.coordenadasBarcos);  
+        console.log('tamaño',this.coordenadasBarcos.length);
+
+        this.tamaño = null;
+
+    },
+    barcoBloqueado (barco) {
+        return barco.cliqueado
     }
     
   },
   computed: {
       selected () {
           if (!this.posicion){
-              this.position = null
+              this.posicion = null
               this.tamaño = null
              return
            } 
         //   const size = 3
-          let selected = []
+          let selectede = []
           const [x, y] = this.posicion.split(',')
           for (let i = 0; i < this.tamaño; i++) {
-            selected.push(`${x},${Number(y) + i}`)
+            selectede.push(`${x},${Number(y) + i}`)
           }
-        //   console.log(selected);          
-          return selected
+        //   console.log(selectede);          
+          return selectede
+      },
+      
+      posicionBarcoTablero () {         
+
+        if(!this.coordenadasBarcos && !this.posicion) {
+            return
+        } else {
+            let coor = this.coordenadasBarcos
+            return coor
+        }
       }
   }
 }
@@ -151,6 +181,9 @@ export default {
     flex-wrap: wrap;
     justify-content: space-around; 
 
+}
+.boton-rotar {
+    background-color: aquamarine;
 }
 
 .tablero-jugador {
@@ -178,17 +211,9 @@ export default {
     border: 1px solid grey;
     background-color: skyblue;
 }
-
-/* .cuadrado:hover {
-    background-color: gray;
-} */
-
-/* tr:hover .punto1 {
-        background-color: gray;
-} 
-tr:hover .punto2 {
-        background-color: gray;
-}   */
+.barco-bloqueado {
+    background-color: #fd0a0a94;
+}
 
 .barcos-box {
     display: flex;
