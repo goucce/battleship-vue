@@ -5,6 +5,13 @@
       <h2>Todas las partidas del jugador</h2>
       <button @click="game">Juagar partida</button>
       <button @click="goExample">Ejemplos Firebase</button>
+      <div class="tarjeta-partida" 
+            v-for="partida in partidas" :key="partida.id"
+            >
+        <span>{{partida.username}}</span>
+        <span class="versus">VS</span>
+        <span>Contrincante</span> 
+      </div>
 
   </div>
 </template>
@@ -14,14 +21,19 @@ import firebase from 'firebase'
 
 export default {
   name: 'Home',
-  // porps:{
-  //     usuario: String,
-  // },
 
   data () {
     return {
-      usuario: firebase.auth().currentUser.email
+      usuario: firebase.auth().currentUser.email,
+      partidas: [],
+      keyUsuario: firebase.auth().currentUser.uid
     }
+  },
+  created () {
+    const db = firebase.database();
+        db.ref('usuarios').child(this.keyUsuario)
+        .on('value', snapshot => this.cargarPartidas(snapshot.val()))
+
   },
   methods: {
     logout () {
@@ -32,6 +44,16 @@ export default {
     },
     goExample () {
       this.$router.replace('examples')
+    },
+    cargarPartidas (partidas) {
+        this.partidas = [];
+        for (let key in partidas) {
+            this.partidas.push({
+                coordenadasBarcos: partidas[key].coordenadasBarcos,
+                username: partidas[key].aUsuario,
+                key: key
+            })            
+        }
     }
   }
   
@@ -53,5 +75,27 @@ li {
 }
 a {
   color: #42b983;
+}
+
+.tarjeta-partida {
+  background-color: #FFFFFF;
+  border: 1px solid #DDDDDD;
+  border-radius: 4px;
+  box-shadow: 0 1px 12px 0 rgba(0, 0, 0, 0.08);
+  margin: 16px;
+  height: 25vh;
+  background: skyblue;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;  
+  
+}
+
+.tarjeta-partida span {
+  font-weight: 600;
+}
+
+.versus {
+  font-size: 33px;
 }
 </style>

@@ -10,7 +10,8 @@
         <div class="tablero-multiplayer">
             <div class="tablero-jugador" v-for="jugador in jugadores" :key="jugador.key">
                 <!-- <span>{{jugador.nombre}}</span> -->
-                <span>{{usuario}} {{keyUsuario}}</span>
+                <span>{{usuario}}</span>                
+                <span><strong>Selecciona los barcos:</strong></span>
                 <div class="barcos-box">
                     <button 
                     @click="barcoEnTablero(barco)" 
@@ -20,7 +21,9 @@
                     :class="{'barco-bloqueado': barco.cliqueado==true}"
                     >
                         {{barco.nombre}}
-                    </button>
+                    </button>                     
+                </div>
+                <div class="botones-acccion">
                     <button @click="rotarPosicion" class="boton-rotar">Rotar</button>
                     <button @click="enviarDatos" class="boton-rotar">Jugar</button>
                 </div>   
@@ -134,7 +137,7 @@ export default {
           .push({
             aUsuario: this.usuario,  
             coordenadasBarcos: this.coordenadasBarcos,
-            IdPartida
+            
           })
     },
     
@@ -244,6 +247,16 @@ export default {
     justify-content: space-evenly;
     margin: 10px;
     flex-direction: initial;
+}
+
+.botones-acccion {
+    margin: 8px;
+}
+
+.botones-acccion button {
+    margin: 8px;
+    border-radius: 4px;
+
 }
 
 </style>
