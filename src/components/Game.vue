@@ -54,13 +54,16 @@
                                 :class="
                                 [
                                     //{
-                                    //    'active': (partidasOponente[0].coordenadasBarcos && partidasOponente[0].coordenadasBarcos.includes(`${x},${y}`))
+                                     //   'active': (partidasOponente[0].coordenadasBarcos && partidasOponente[0].coordenadasBarcos.includes(`${x},${y}`))
                                     //},
                                     {
                                         'tocado': (partidasOponente[0].coordenadasBarcos && partidasOponente[0].coordenadasBarcos.includes(`${x},${y}`) && (coordenadasBarcosOponente && coordenadasBarcosOponente.includes(`${x},${y}`))),
                                     },
                                     {
                                         'active': (selectedOponente && selectedOponente.includes(`${x},${y}`))
+                                    },
+                                    {
+                                        'agua': (partidasOponente[0].coordenadasBarcos && !partidasOponente[0].coordenadasBarcos.includes(`${x},${y}`) && (coordenadasBarcosOponente && coordenadasBarcosOponente.includes(`${x},${y}`))),
                                     },
                                 ]"
                                 @mouseover="onHoverOponente(x,y)"
@@ -133,7 +136,7 @@ export default {
         keyUsuario: firebase.auth().currentUser.uid,
         partidasOponente: [],
         coordenadasBarcosOponente: [],
-        tocado: false,
+        coordenadasAgua: [],
               
     }
   },
@@ -149,7 +152,7 @@ export default {
     },
     onHoverOponente (x,y) {
         this.posicionOponente = `${x},${y}` 
-        console.log(this.posicionOponente);      
+        // console.log(this.posicionOponente);      
 
     },
     logout () {
@@ -173,8 +176,19 @@ export default {
     },
     posicionBarcoOponente () {
         // console.log('coordenadas seleccionadas 1 ',this.selectedOponente);
-         this.coordenadasBarcosOponente.push(...this.selectedOponente)
-         console.log(this.selectedOponente);
+        this.coordenadasBarcosOponente.push(...this.selectedOponente)
+        // this.coordenadasAgua.push(...this.selectedOponente)
+
+        for (let i = 0; i < this.partidasOponente[0].coordenadasBarcos.length; i++) {
+            if (this.coordenadasBarcosOponente!=this.partidasOponente[0].coordenadasBarcos[i]) {
+                this.coordenadasAgua.push()                                              
+            }
+            
+        } 
+        console.log(this.coordenadasAgua);
+            
+        
+        // console.log(this.selectedOponente);
          
     },
     enviarDatos () {
@@ -273,6 +287,9 @@ export default {
 }
 .tocado {
     background-color: red!important;
+}
+.agua {
+    background-color: blue!important;
 }
 
 .click {
