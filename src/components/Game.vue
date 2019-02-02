@@ -53,12 +53,15 @@
                                 class="cuadrado"
                                 :class="
                                 [
+                                    //{
+                                    //    'active': (partidasOponente[0].coordenadasBarcos && partidasOponente[0].coordenadasBarcos.includes(`${x},${y}`))
+                                    //},
                                     {
-                                        'active': (partidasOponente[0].coordenadasBarcos && partidasOponente[0].coordenadasBarcos.includes(`${x},${y}`))
+                                        'tocado': (partidasOponente[0].coordenadasBarcos && partidasOponente[0].coordenadasBarcos.includes(`${x},${y}`) && (coordenadasBarcosOponente && coordenadasBarcosOponente.includes(`${x},${y}`))),
                                     },
                                     {
-                                        'hundido': (selectedOponente && selectedOponente.includes(`${x},${y}`)) || (coordenadasBarcosOponente && coordenadasBarcosOponente.includes(`${x},${y}`)),
-                                    }
+                                        'active': (selectedOponente && selectedOponente.includes(`${x},${y}`))
+                                    },
                                 ]"
                                 @mouseover="onHoverOponente(x,y)"
                                 @click="posicionBarcoOponente"
@@ -129,7 +132,8 @@ export default {
         usuarioReal: [],
         keyUsuario: firebase.auth().currentUser.uid,
         partidasOponente: [],
-        coordenadasBarcosOponente: []
+        coordenadasBarcosOponente: [],
+        tocado: false,
               
     }
   },
@@ -267,7 +271,7 @@ export default {
 .active {
     background-color: gray!important;
 }
-.hundido {
+.tocado {
     background-color: red!important;
 }
 
