@@ -1,6 +1,6 @@
 <template>
   <div>
-      <h3>Username: {{usuario}}</h3>
+      <h3>Username: {{usuarioReal[0]}}</h3>
       <a href="#" @click="logout">Logout</a>
       <h2>Todas las partidas del jugador</h2>
       <button @click="game">Juagar partida</button>
@@ -26,12 +26,14 @@ export default {
     return {
       usuario: firebase.auth().currentUser.email,
       partidas: [],
+      usuarioReal:[],
       keyUsuario: firebase.auth().currentUser.uid
     }
   },
   created () {
+    this.usuarioReal = this.usuario.split("@")
     const db = firebase.database();
-        db.ref('usuarios').child(this.keyUsuario)
+        db.ref('usuarios').child(this.usuarioReal[0])
         .on('value', snapshot => this.cargarPartidas(snapshot.val()))
 
   },
