@@ -1,27 +1,47 @@
 <template>
-  <div>
-      <h3>Username: {{usuarioReal[0]}}</h3>
+  <div class="home">
+    <div class="cabecera">
+      <h3>Bienvenido, {{usuarioReal[0]}}</h3>
       <a href="#" @click="logout">Logout</a>
-      <h2>Todas las partidas del jugador</h2>
-      <button @click="game">Juagar partida</button>
-      <button @click="goExample">Ejemplos Firebase</button>
-      <div class="tarjeta-partida" 
-            v-for="partida in partidas" :key="partida.id"
-            @click="verPartida(partida)"
-            >
-        <span>{{partida.jugador}}</span>
-        <span class="versus">VS</span>
-        <span>{{partida.contrincante}}</span> 
+    </div>
+
+    <div class="jugar-nueva-partida">
+      <button @click="game">JUGAR UNA NUEVA PARTIDA</button>
+    </div>
+
+    <div class="cuerpo-home">
+
+      <div class="partidas-jugador">
+        <h2>Todas tus partidas:</h2>
+        <div class="tarjeta-partida" 
+              v-for="partida in partidas" :key="partida.id"
+              @click="verPartida(partida)"
+              >
+          <span>{{partida.jugador}}</span>
+          <span class="versus">VS</span>
+          <span>{{partida.contrincante}}</span>          
+        </div>
       </div>
+      <div>
+        <VerJuego
+            v-if="clickPartida"
+            :partidaSeleccionada="partidaSeleccionada"
+          />
+      </div>
+    </div>
+
+      <!-- <button @click="goExample">Ejemplos Firebase</button> -->
 
   </div>
 </template>
 
 <script>
 import firebase from 'firebase'
+import VerJuego from '@/components/VerJuego.vue'
 
 export default {
   name: 'Home',
+
 
   data () {
     return {
@@ -29,7 +49,9 @@ export default {
       partidas: [],
       usuarioReal:[],
       keyUsuario: firebase.auth().currentUser.uid,
-      ultimaPartida: {}
+      ultimaPartida: {},
+      clickPartida: false,
+      partidaSeleccionada: [],
     }
   },
   created () {
@@ -76,8 +98,15 @@ export default {
     },
 
     verPartida (partida) {
-        this.$router.push( {path: 'game', params:{partida}})
+        // this.$router.push( {path: 'game', params:{partida}})
+        this.clickPartida = true
+        console.log('partida',partida);
+        this.partidaSeleccionada = partida
+        
     }
+  },
+  components: {
+    VerJuego
   }
   
 }
@@ -85,19 +114,39 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
+
+.home {
+  padding: 4rem;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+
+.cabecera {
+  display: flex;
+  justify-content: space-between;
+  background-color: #FFFFFF;
+  border: 1px solid #DDDDDD;
+  border-radius: 4px;
+  box-shadow: 0 1px 12px 0 rgba(0, 0, 0, 0.08);
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+
+.jugar-nueva-partida {
+  font-size: 20px;
 }
-a {
-  color: #42b983;
+
+.cuerpo-home {
+  display: flex;
+}
+
+.jugar-nueva-partida button {
+    background-color: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 28px;
+    box-shadow: 0 1px 12px 0 rgba(0, 0, 0, 0.08);
+    padding: 1rem;
 }
 
 .tarjeta-partida {

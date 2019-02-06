@@ -26,9 +26,6 @@
                 <div class="botones-acccion">
                     <button @click="rotarPosicion" class="boton-rotar">Rotar</button>
                     <button @click="enviarDatos" class="boton-rotar">Jugar</button>
-                    <button v-if="jugarActive===true" v-for="jugador in jugadores" :key="jugador.id">
-                        {{jugador.nombre}} HOLA
-                    </button>
                     
                 </div>   
                 <div class="tablero">
@@ -47,7 +44,7 @@
                     </table>
                 </div>                             
             </div>
-            <div class="tablero-jugador">
+            <div class="tablero-jugador" v-if="jugarActive===true ">
                 <span>{{ultimaPartida.aUsuario}}</span>                
                 <span class="text-oponente"><strong>Dispara contra los barcos:</strong></span>
                 <div class="tablero">
@@ -88,6 +85,12 @@ import firebase from 'firebase'
 
 export default {
   name: 'Home',
+  props: {
+        // partida: {
+        //     type: Object,
+        //     required: true            
+        // }
+    },
   data () {
     return {
         jugadores: [],
@@ -140,7 +143,8 @@ export default {
         jugarActive: false,
         ultimaPartida: {},
         guardarCoordenadas: [],
-        nombreOponente: ''
+        nombreOponente: '',
+        infoPartidasJugadores: []
               
     }
   },
@@ -149,6 +153,8 @@ export default {
 
   }],
   created () {
+      console.log(this.$route.params);
+      
     const db = firebase.database();
         db.ref('usuarios').child('marius')
         .on('value', snapshot => this.cargarPartidas(snapshot.val()))
@@ -171,7 +177,7 @@ export default {
       firebase.auth().signOut().then(()=> this.$router.replace('login'))
     },
     back () {
-        this.$router.go(-1)
+        this.$router.replace('home')
     },
     barcoEnTablero (barco) {
         this.tamaño = barco.tamaño
@@ -207,6 +213,7 @@ export default {
             coordenadasBarcosOponente: this.coordenadasBarcosOponente,  
             coordenadasBarcosUsuario: this.coordenadasBarcos,
             contrincante: this.nombreOponente,
+            coordenadasDondeAtacar: this.ultimaPartida.coordenadasBarcos,
             jugador: this.usuarioReal[0],
             // coordenadasBarcosElegidasOponente: this.ultimaPartida.coordenadasBarco            
           })
@@ -225,6 +232,16 @@ export default {
             coordenadasBarcos: this.coordenadasBarcos,
             
           })
+        
+        let numeroRandom = Math.floor((Math.random() * this.infoPartidasJugadores.length-1) + 1);
+        // console.log(numeroRandom); 
+
+        const partidasUnJugador = []
+        Object.keys(this.infoPartidasJugadores[numeroRandom]).forEach(key => {
+            partidasUnJugador.push(this.infoPartidasJugadores[numeroRandom][key])
+        })
+
+        this.ultimaPartida = partidasUnJugador.pop()
         
         // for (const prop in this.jugadores) {
         //     console.log(`obj.${prop} = ${obj[prop]}`);
@@ -256,20 +273,44 @@ export default {
 
     cargarJugadores (jugadores) {
         
-        const infoPartidasJugadores = []
+         this.infoPartidasJugadores = []
         Object.keys(jugadores).forEach(key => {
-            infoPartidasJugadores.push(jugadores[key])
+            this.infoPartidasJugadores.push(jugadores[key])
         })
-        console.log('JUGADORES',jugadores);
+        // console.log('JUGADORES',jugadores);
+
+        // let numeroRandom = Math.floor((Math.random() * this.infoPartidasJugadores.length-1) + 1);
+        // console.log(numeroRandom); 
+
+        // const partidasUnJugador = []
+        // Object.keys(this.infoPartidasJugadores[numeroRandom]).forEach(key => {
+        //     partidasUnJugador.push(this.infoPartidasJugadores[numeroRandom][key])
+        // })
+
+        // this.ultimaPartida = partidasUnJugador.pop()
         
 
-        const partidasUnJugador = []
-        Object.keys(infoPartidasJugadores[0]).forEach(key => {
-            partidasUnJugador.push(infoPartidasJugadores[0][key])
-        })
+// console.log('usuario Real', this.usuarioReal[0]);
+        
 
-        this.ultimaPartida = partidasUnJugador.pop()
-                
+//         this.contrincantes = Object.keys(jugadores).filter(j => j !== this.usuarioReal[0] )
+//         this.contrincantes = this.contrincantes.map(j => {return jugadores[j]})
+        
+//         console.log('contrincantes',this.contrincantes);
+        
+        
+
+
+//         console.log('contrincantes numero random', this.contrincantes[numeroRandom]);
+        
+
+
+//         const partidasUnJugador = []
+//         Object.keys(infoPartidasJugadores[numeroRandom]).forEach(key => {
+//             partidasUnJugador.push(infoPartidasJugadores[numeroRandom].key)
+//         })
+
+//         console.log(this.partidasUnJugador);                
         
     }
     

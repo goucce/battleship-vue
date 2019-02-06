@@ -13,7 +13,7 @@ export default {
 </script>
 
 <style>
-#app {
+/* #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif; 
   height: 60vh;
 
@@ -22,5 +22,5 @@ export default {
    text-align: center; 
   color: #2c3e50;
   margin-top: 60px; */ 
-}
+
 </style>
