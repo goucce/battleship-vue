@@ -8,7 +8,7 @@
     <div class="total-game">
         <div class="nombres-jugador"></div>
         <div class="tablero-multiplayer">
-            <div class="tablero-jugador" v-for="jugador in jugadores" :key="jugador.key">
+            <div class="tablero-jugador">
                 <!-- <span>{{jugador.nombre}}</span> -->
                 <span>{{usuario}}</span>                
                 <span><strong>Selecciona los barcos:</strong></span>
@@ -26,6 +26,10 @@
                 <div class="botones-acccion">
                     <button @click="rotarPosicion" class="boton-rotar">Rotar</button>
                     <button @click="enviarDatos" class="boton-rotar">Jugar</button>
+                    <button v-if="jugarActive===true" v-for="jugador in jugadores" :key="jugador.id">
+                        {{jugador.nombre}} HOLA
+                    </button>
+                    
                 </div>   
                 <div class="tablero">
                     <table class="board">
@@ -44,7 +48,7 @@
                 </div>                             
             </div>
             <div class="tablero-jugador">
-                <span>{{partidasOponente[0].username}}</span>                
+                <span>{{ultimaPartida.aUsuario}}</span>                
                 <span class="text-oponente"><strong>Dispara contra los barcos:</strong></span>
                 <div class="tablero">
                     <table class="board">
@@ -54,16 +58,16 @@
                                 :class="
                                 [
                                     //{
-                                     //   'active': (partidasOponente[0].coordenadasBarcos && partidasOponente[0].coordenadasBarcos.includes(`${x},${y}`))
+                                      //  'active': (ultimaPartida.coordenadasBarcos && ultimaPartida.coordenadasBarcos.includes(`${x},${y}`))
                                     //},
                                     {
-                                        'tocado': (partidasOponente[0].coordenadasBarcos && partidasOponente[0].coordenadasBarcos.includes(`${x},${y}`) && (coordenadasBarcosOponente && coordenadasBarcosOponente.includes(`${x},${y}`))),
+                                        'tocado': (ultimaPartida.coordenadasBarcos && ultimaPartida.coordenadasBarcos.includes(`${x},${y}`) && (coordenadasBarcosOponente && coordenadasBarcosOponente.includes(`${x},${y}`))),
                                     },
                                     {
                                         'active': (selectedOponente && selectedOponente.includes(`${x},${y}`))
                                     },
                                     {
-                                        'agua': (partidasOponente[0].coordenadasBarcos && !partidasOponente[0].coordenadasBarcos.includes(`${x},${y}`) && (coordenadasBarcosOponente && coordenadasBarcosOponente.includes(`${x},${y}`))),
+                                        'agua': (ultimaPartida.coordenadasBarcos && !ultimaPartida.coordenadasBarcos.includes(`${x},${y}`) && (coordenadasBarcosOponente && coordenadasBarcosOponente.includes(`${x},${y}`))),
                                     },
                                 ]"
                                 @mouseover="onHoverOponente(x,y)"
@@ -86,11 +90,7 @@ export default {
   name: 'Home',
   data () {
     return {
-        jugadores: [
-            {
-            nombre: 'jugador 1',      
-            },                     
-        ],
+        jugadores: [],
         barcos: [
             {
             nombre: 'Carrier',
@@ -137,13 +137,25 @@ export default {
         partidasOponente: [],
         coordenadasBarcosOponente: [],
         coordenadasAgua: [],
+        jugarActive: false,
+        ultimaPartida: {},
+        guardarCoordenadas: [],
+        nombreOponente: ''
               
     }
   },
+  props : [{
+      partidas: Array
+
+  }],
   created () {
     const db = firebase.database();
         db.ref('usuarios').child('marius')
         .on('value', snapshot => this.cargarPartidas(snapshot.val()))
+        
+        db.ref('usuarios')
+        .on('value', snapshot => this.cargarJugadores(snapshot.val()))       
+        
   },
   methods: {
     onHover (x, y) {
@@ -163,7 +175,7 @@ export default {
     },
     barcoEnTablero (barco) {
         this.tamaño = barco.tamaño
-        console.log(barco.nombre)        
+        // console.log(barco.nombre)        
         barco.cliqueado = true       
               
     },
@@ -178,22 +190,33 @@ export default {
         // console.log('coordenadas seleccionadas 1 ',this.selectedOponente);
         this.coordenadasBarcosOponente.push(...this.selectedOponente)
         // this.coordenadasAgua.push(...this.selectedOponente)
-
-        for (let i = 0; i < this.partidasOponente[0].coordenadasBarcos.length; i++) {
-            if (this.coordenadasBarcosOponente!=this.partidasOponente[0].coordenadasBarcos[i]) {
-                this.coordenadasAgua.push()                                              
-            }
-            
-        } 
-        console.log(this.coordenadasAgua);
-            
         
-        // console.log(this.selectedOponente);
-         
+        for (let i = 0; i < this.ultimaPartida.coordenadasBarcos.length; i++) {
+            if (this.coordenadasBarcosOponente!=this.ultimaPartida.coordenadasBarcos[i]) {
+                this.coordenadasAgua.push()                                              
+            }            
+        }
+
+        this.usuarioReal = this.usuario.split("@")
+        this.nombreOponente = this.ultimaPartida.aUsuario.split("@")
+        this.nombreOponente = this.nombreOponente[0]
+        const db = firebase.database()
+        db
+          .ref("partidas").child(this.usuarioReal[0]).child(this.nombreOponente)
+          .push({
+            coordenadasBarcosOponente: this.coordenadasBarcosOponente,  
+            coordenadasBarcosUsuario: this.coordenadasBarcos,
+            contrincante: this.nombreOponente,
+            jugador: this.usuarioReal[0],
+            // coordenadasBarcosElegidasOponente: this.ultimaPartida.coordenadasBarco            
+          })
+        
+        
     },
     enviarDatos () {
+        this.jugarActive = true         
         this.usuarioReal = this.usuario.split("@")
-        console.log(this.usuarioReal)        
+        // console.log(this.usuarioReal)        
         const db = firebase.database()
         db
           .ref("usuarios").child(this.usuarioReal[0])
@@ -202,6 +225,10 @@ export default {
             coordenadasBarcos: this.coordenadasBarcos,
             
           })
+        
+        // for (const prop in this.jugadores) {
+        //     console.log(`obj.${prop} = ${obj[prop]}`);
+        // }        
     },
     
     barcoBloqueado (barco) {
@@ -224,7 +251,25 @@ export default {
                 key: key
             })            
         }
-        console.log(this.partidasOponente);
+        // console.log(this.partidasOponente);        
+    },
+
+    cargarJugadores (jugadores) {
+        
+        const infoPartidasJugadores = []
+        Object.keys(jugadores).forEach(key => {
+            infoPartidasJugadores.push(jugadores[key])
+        })
+        console.log('JUGADORES',jugadores);
+        
+
+        const partidasUnJugador = []
+        Object.keys(infoPartidasJugadores[0]).forEach(key => {
+            partidasUnJugador.push(infoPartidasJugadores[0][key])
+        })
+
+        this.ultimaPartida = partidasUnJugador.pop()
+                
         
     }
     

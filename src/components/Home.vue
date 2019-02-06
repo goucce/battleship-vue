@@ -7,10 +7,11 @@
       <button @click="goExample">Ejemplos Firebase</button>
       <div class="tarjeta-partida" 
             v-for="partida in partidas" :key="partida.id"
+            @click="verPartida(partida)"
             >
-        <span>{{partida.username}}</span>
+        <span>{{partida.jugador}}</span>
         <span class="versus">VS</span>
-        <span>Contrincante</span> 
+        <span>{{partida.contrincante}}</span> 
       </div>
 
   </div>
@@ -27,13 +28,14 @@ export default {
       usuario: firebase.auth().currentUser.email,
       partidas: [],
       usuarioReal:[],
-      keyUsuario: firebase.auth().currentUser.uid
+      keyUsuario: firebase.auth().currentUser.uid,
+      ultimaPartida: {}
     }
   },
   created () {
     this.usuarioReal = this.usuario.split("@")
     const db = firebase.database();
-        db.ref('usuarios').child(this.usuarioReal[0])
+        db.ref('partidas').child(this.usuarioReal[0])
         .on('value', snapshot => this.cargarPartidas(snapshot.val()))
 
   },
@@ -48,14 +50,33 @@ export default {
       this.$router.replace('examples')
     },
     cargarPartidas (partidas) {
-        this.partidas = [];
-        for (let key in partidas) {
-            this.partidas.push({
-                coordenadasBarcos: partidas[key].coordenadasBarcos,
-                username: partidas[key].aUsuario,
-                key: key
-            })            
-        }
+      console.log('partidas',partidas);
+
+      const infoPartidas = []
+      
+      Object.keys(partidas).forEach(key => {infoPartidas.push(partidas[key])})
+
+      console.log('infoPartida',infoPartidas);
+      console.log('infoPartida 0',infoPartidas[0]);
+
+
+      for (let i = 0; i < infoPartidas.length; i++) {
+        const infoPartidas2 = []
+        Object.keys(infoPartidas[i]).forEach(key => {infoPartidas2.push(infoPartidas[i][key])})
+        // console.log('infoPartidas 2',infoPartidas2);
+  
+        let ultimaPartida = infoPartidas2.pop()
+        // console.log('ultima partida', ultimaPartida);
+  
+        this.partidas.push(ultimaPartida)       
+        
+      }
+
+      console.log(this.partidas);
+    },
+
+    verPartida (partida) {
+        this.$router.push( {path: 'game', params:{partida}})
     }
   }
   

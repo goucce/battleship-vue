@@ -22,11 +22,12 @@ firebase.initializeApp(config);
 var db = firebase.database();
 
 //Guardar info de perfil en base de datos
-db.ref('/perfiles/marius').set({
-    username: 'marius',
-    password: 1234567,
-    ciudad: 'Valencia'
-}).then(()=> console.info('Datos añadidos'))
+// db.ref('/perfiles/marius').set({
+//     username: 'marius',
+//     password: 1234567,
+//     ciudad: 'Valencia'
+// }).then(()=>
+// //  console.info('Datos añadidos'))
 
 //Guardar nuevos datos anidados en forma de lista
 

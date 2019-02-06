@@ -65,7 +65,7 @@ export default {
     // chats.on('child_changed', (data) => console.log(data.val()));
 
     //childRemoved --- Devuelve lo que había dentro de ese elemento que hemos eliminado
-    chats.on('child_removed', (data) => console.log(data.val()));
+    // chats.on('child_removed', (data) => console.log(data.val()));
 
     }, 
 
@@ -104,16 +104,16 @@ export default {
           })
           //Aquí se obtendrá la key por la cual se guarda el mensaje en la base de datos
           .then((data) => {
-            console.info("Mensaje enviado");
+            // console.info("Mensaje enviado");
             mensaje.value = "";
-            console.log(data.key);            
+            // console.log(data.key);            
             mensaje.value = "";
           });
     },
 
     editarMensaje (mensaje, key) {
         const db = firebase.database();
-        console.log(mensaje.target.innerHTML,key);
+        // console.log(mensaje.target.innerHTML,key);
         db.ref('/chats/' + key).update({
             mensaje: mensaje.target.innerHTML
         });
