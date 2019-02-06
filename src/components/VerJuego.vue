@@ -4,7 +4,8 @@
         <div class="nombres-jugador"></div>
         <div class="tablero-multiplayer">
             <div class="tablero-jugador">
-                <span>{{partidaSeleccionada.jugador}}</span>                        
+                <strong><span>¡Hola, {{partidaSeleccionada.jugador}}!</span></strong>
+                <span class="texto-informativo">Aquí tienes los barcos que seleccionaste</span>
                 <div class="tablero">
                     <table class="board">
                         <tr v-for="y in 10" :key="y">
@@ -20,8 +21,8 @@
                 </div>                             
             </div>
             <div class="tablero-jugador">
-                <span>{{partidaSeleccionada.contrincante}}</span>                
-                <span class="text-oponente"><strong>Dispara contra los barcos:</strong></span>
+                <strong><span>To contrincante es: {{partidaSeleccionada.contrincante}}</span></strong>               
+                <span class="texto-informativo">Dispara contra sus barcos:</span>
                 <div class="tablero">
                     <table class="board">
                         <tr v-for="y in 10" :key="y">
@@ -87,7 +88,7 @@ export default {
 .tablero-jugador {
     /* border: 1px solid grey; */
     height: 500px;
-    width: 400px;
+    width: 350px;
     margin: 15px;
     display: flex;
     flex-direction: column;
@@ -105,6 +106,10 @@ export default {
 
 .active {
     background-color: gray!important;
+}
+
+.texto-informativo {
+    margin-bottom: 1rem;
 }
 
 </style>

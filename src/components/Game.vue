@@ -1,11 +1,24 @@
 <template>
-  <div>
-    <a href="#" @click="logout">Logout</a>
-    <h2>HUNDIR LA FLOTA GAME</h2>
-    <button @click="back"> atras </button>
-    <br>
-    
+  <div class="home">
+    <div class="cabecera">
+        <h3>Estas dentro, ¡A luchar!</h3>
+        <div>
+            <button @click="back"> atras </button>
+            <a href="#" @click="logout">Logout</a>
+        </div>
+    </div>   
+
     <div class="total-game">
+        <div v-if="jugarActive===false" class="pasos">
+            <span>Muy buenas, <strong>{{this.usuarioReal}}</strong></span>
+            <span>Si quieres jugar, sigue estos pasos:</span>
+            <span> <strong>1.</strong>  Selecciona uno barco.</span>
+            <span><strong>2.</strong> Posicionate en el tablero.</span>
+            <span><strong>3.</strong> Colocaló.</span>
+            <span><strong>4.</strong> Repite con cada barco.</span>
+            <span><strong>5.</strong> Clickea en JUGAR y disfruta.</span> 
+        </div>
+
         <div class="nombres-jugador"></div>
         <div class="tablero-multiplayer">
             <div class="tablero-jugador">
@@ -153,7 +166,11 @@ export default {
 
   }],
   created () {
-      console.log(this.$route.params);
+
+      this.usuarioReal = this.usuario.split('@')
+      console.log(this.usuarioReal);
+      
+      this.usuarioReal = this.usuarioReal[0]
       
     const db = firebase.database();
         db.ref('usuarios').child('marius')
@@ -444,6 +461,59 @@ export default {
     margin: 8px;
     border-radius: 4px;
 
+}
+
+.tablero-multiplayer {
+    justify-content: space-between;
+    padding-left: 8rem;
+    padding-right: 8rem;
+}
+
+.cabecera {
+  display: flex;
+  justify-content: space-between;
+  background-color: #FFFFFF;
+  border: 1px solid #DDDDDD;
+  border-radius: 4px;
+  box-shadow: 0 1px 12px 0 rgba(0, 0, 0, 0.08);
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.home {
+  padding: 4rem;
+}
+
+.pasos {
+    background-color: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 12px 0 rgba(0, 0, 0, 0.08);
+    box-shadow: 0 1px 12px 0 rgba(0, 0, 0, 0.08);
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    
+}
+
+.pasos span {
+    margin-bottom: 1rem;
+}
+
+.pasos span stron {
+    font-weight: 800;
+}
+
+.total-game {
+    display: flex;
 }
 
 </style>

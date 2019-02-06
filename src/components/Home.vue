@@ -28,6 +28,12 @@
             :partidaSeleccionada="partidaSeleccionada"
           />
       </div>
+      <div v-if="clickPartida==false">
+        <span>Aquí podrás ver cada una de las partidas que has realizado,
+        <strong>SOLO</strong>  tendrás que cliquear en alguna de tus partidas.
+        (Si no tienes ninguna, arriba podrás <strong>JUGAR UNA NUEVA PARTIDA</strong>)
+        </span>
+      </div>
     </div>
 
       <!-- <button @click="goExample">Ejemplos Firebase</button> -->
@@ -135,10 +141,13 @@ export default {
 
 .jugar-nueva-partida {
   font-size: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 .cuerpo-home {
   display: flex;
+  /* justify-content: space-between; */
 }
 
 .jugar-nueva-partida button {
@@ -149,13 +158,28 @@ export default {
     padding: 1rem;
 }
 
+.partidas-jugador {
+    max-width: 25%;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    box-shadow: 0 1px 12px 0 rgba(0, 0, 0, 0.08);
+    padding: 1rem;
+    max-height: 58vh;
+    overflow: scroll;
+    margin-right: 3rem;
+}
+
+.tablero-multiplayer {
+  margin-top: 2rem;
+}
+
 .tarjeta-partida {
   background-color: #FFFFFF;
   border: 1px solid #DDDDDD;
   border-radius: 4px;
   box-shadow: 0 1px 12px 0 rgba(0, 0, 0, 0.08);
   margin: 16px;
-  height: 25vh;
+  height: 9vh;
   background: skyblue;
   display: flex;
   justify-content: space-evenly;
