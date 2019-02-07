@@ -30,17 +30,20 @@
                                 class="cuadrado"
                                 :class="
                                 [
-                                    {
-                                        'active': (partidaSeleccionada.coordenadasDondeAtacar && partidaSeleccionada.coordenadasDondeAtacar.includes(`${x},${y}`))
-                                    },
-                                    {
-                                        'tocado': (partidaSeleccionada.coordenadasDondeAtacar && partidaSeleccionada.coordenadasDondeAtacar.includes(`${x},${y}`) && (partidaSeleccionada.coordenadasBarcosOponente && partidaSeleccionada.coordenadasBarcosOponente.includes(`${x},${y}`))),
-                                    },
+                                    //{
+                                      //  'active': (partidaSeleccionada.coordenadasDondeAtacar && partidaSeleccionada.coordenadasDondeAtacar.includes(`${x},${y}`))
+                                    //},
+                                    //{
+                                      //  'tocado': (partidaSeleccionada.coordenadasDondeAtacar && partidaSeleccionada.coordenadasDondeAtacar.includes(`${x},${y}`) && (partidaSeleccionada.coordenadasBarcosOponente && partidaSeleccionada.coordenadasBarcosOponente.includes(`${x},${y}`))),
+                                    //},
                                     //{
                                       //  'active': (selectedOponente && selectedOponente.includes(`${x},${y}`))
                                     //},
                                     {
-                                        'agua': (partidaSeleccionada.coordenadasDondeAtacar && !partidaSeleccionada.coordenadasDondeAtacar.includes(`${x},${y}`) && (partidaSeleccionada.coordenadasBarcosOponente && partidaSeleccionada.coordenadasBarcosOponente.includes(`${x},${y}`))),
+                                        'agua': (partidaSeleccionada.coordenadasBarcosOponente && partidaSeleccionada.coordenadasBarcosOponente.includes(`${x},${y}`))
+                                    },
+                                    {
+                                        'tocado': (partidaSeleccionada.coordenadasBarcosOponente && partidaSeleccionada.coordenadasBarcosOponente.includes(`${x},${y}`)) && (partidaSeleccionada.coordenadasDondeAtacar && partidaSeleccionada.coordenadasDondeAtacar.includes(`${x},${y}`))
                                     },
                                 ]"
                 
@@ -83,6 +86,10 @@ export default {
 
 .tocado {
     background-color: red!important;
+}
+
+.agua:not(.tocado) {
+    background-color: blue!important;
 }
 
 .tablero-jugador {
