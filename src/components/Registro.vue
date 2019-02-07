@@ -1,15 +1,13 @@
 <template>
-    <div>
-        <h2>Registro</h2>
+    <div class="login">
+      <div class="log">
+        <span><strong>REGISTRO</strong> </span>       
         <form @submit.prevent="registro">
-            <input v-model="usuario" type="text" placeholder="Usuario">
-            <input v-model="contrasena" type="password" placeholder="Contraseña">
+            <input v-model="usuario" type="text" placeholder="Escribe tu usuario">
+            <input v-model="contrasena" type="password" placeholder="Escribe tu contraseña">
             <input @click="back" type="submit" value="Registrarme">
-        </form>
-
-        <pre>
-            {{ $data }}
-        </pre>
+        </form>       
+    </div>
     </div>
 </template>
 
@@ -51,14 +49,27 @@ export default {
 </script>
 
 <style>
-div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+.login {
+    justify-content: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 70vh;
 }
 
-form > * {
-  display: block;
+.log {
+
+    background-color: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    padding: 2rem;
+    box-shadow: 0 1px 12px 0 rgba(0, 0, 0, 0.08);
 }
+
+.log span strong {
+    font-weight: 800;
+    margin-bottom: 1rem; 
+}
+
 </style>

@@ -164,9 +164,13 @@ export default {
     border-radius: 4px;
     box-shadow: 0 1px 12px 0 rgba(0, 0, 0, 0.08);
     padding: 1rem;
-    max-height: 58vh;
-    overflow: scroll;
+    /* max-height: 58vh; */
+    /* overflow: scroll; */
     margin-right: 3rem;
+}
+
+.partidas-jugador h2 {
+  margin: 1rem
 }
 
 .tablero-multiplayer {
