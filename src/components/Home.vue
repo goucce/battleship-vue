@@ -28,11 +28,14 @@
             :partidaSeleccionada="partidaSeleccionada"
           />
       </div>
-      <div v-if="clickPartida==false">
+      <div class="parrafoo" v-if="clickPartida==false">
+        <span class="information">INFORMACIÓN:</span>
+        <p >
         <span>Aquí podrás ver cada una de las partidas que has realizado,
         <strong>SOLO</strong>  tendrás que cliquear en alguna de tus partidas.
         (Si no tienes ninguna, arriba podrás <strong>JUGAR UNA NUEVA PARTIDA</strong>)
         </span>
+        </p>
       </div>
     </div>
 
@@ -197,5 +200,21 @@ export default {
 
 .versus {
   font-size: 33px;
+}
+
+.parrafoo {
+    width: 50%;
+    margin-top: 4rem;
+    margin-left: 2rem;
+    border: 1px solid rgb(36, 80, 138);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 12px 0 rgba(0, 0, 0, 0.08);
+    box-shadow: 0 1px 12px 0 rgba(0, 0, 0, 0.08);
+    padding: 2rem;
+
+}
+
+.information {
+  font-weight: 800;
 }
 </style>
