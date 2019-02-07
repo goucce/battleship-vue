@@ -30,12 +30,17 @@
       </div>
       <div class="parrafoo" v-if="clickPartida==false">
         <span class="information">INFORMACIÓN:</span>
-        <p >
-        <span>Aquí podrás ver cada una de las partidas que has realizado,
-        <strong>SOLO</strong>  tendrás que cliquear en alguna de tus partidas.
-        (Si no tienes ninguna, arriba podrás <strong>JUGAR UNA NUEVA PARTIDA</strong>)
-        </span>
-        </p>
+        <br>
+        <br>
+        <div>
+        <span>Aquí podrás ver cada una de las partidas que has realizado,</span>
+        <span><strong>SOLO</strong>  tendrás que cliquear en alguna de tus partidas.</span>
+        
+        <span>(Si no tienes ninguna, arriba podrás <strong>JUGAR UNA NUEVA PARTIDA</strong>)</span>
+
+        </div>
+        
+        
       </div>
     </div>
 
