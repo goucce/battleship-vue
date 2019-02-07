@@ -3,11 +3,13 @@
       <div class="log">
         <span><strong>REGISTRO</strong> </span>       
         <form @submit.prevent="registro">
-            <input v-model="usuario" type="text" placeholder="Escribe tu usuario">
+            <input v-model="usuario" type="text" placeholder="Escribe te email">
             <input v-model="contrasena" type="password" placeholder="Escribe tu contraseña">
             <input @click="back" type="submit" value="Registrarme">
-        </form>       
+        </form>
+        <button @click="back">atras</button>    
     </div>
+    
     </div>
 </template>
 

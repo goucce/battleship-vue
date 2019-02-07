@@ -204,6 +204,7 @@ export default {
 
 .parrafoo {
     width: 50%;
+    height: fit-content;
     margin-top: 4rem;
     margin-left: 2rem;
     border: 1px solid rgb(36, 80, 138);

@@ -21,7 +21,7 @@
                 </div>                             
             </div>
             <div class="tablero-jugador">
-                <strong><span>To contrincante es: {{partidaSeleccionada.contrincante}}</span></strong>               
+                <strong><span>Tu contrincante es: {{partidaSeleccionada.contrincante}}</span></strong>               
                 <span class="texto-informativo">Dispara contra sus barcos:</span>
                 <div class="tablero">
                     <table class="board">

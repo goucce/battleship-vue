@@ -187,8 +187,7 @@ export default {
     },
     onHoverOponente (x,y) {
         this.posicionOponente = `${x},${y}` 
-        // console.log(this.posicionOponente);      
-
+        // console.log(this.posicionOponente);
     },
     logout () {
       firebase.auth().signOut().then(()=> this.$router.replace('login'))
@@ -293,41 +292,7 @@ export default {
          this.infoPartidasJugadores = []
         Object.keys(jugadores).forEach(key => {
             this.infoPartidasJugadores.push(jugadores[key])
-        })
-        // console.log('JUGADORES',jugadores);
-
-        // let numeroRandom = Math.floor((Math.random() * this.infoPartidasJugadores.length-1) + 1);
-        // console.log(numeroRandom); 
-
-        // const partidasUnJugador = []
-        // Object.keys(this.infoPartidasJugadores[numeroRandom]).forEach(key => {
-        //     partidasUnJugador.push(this.infoPartidasJugadores[numeroRandom][key])
-        // })
-
-        // this.ultimaPartida = partidasUnJugador.pop()
-        
-
-// console.log('usuario Real', this.usuarioReal[0]);
-        
-
-//         this.contrincantes = Object.keys(jugadores).filter(j => j !== this.usuarioReal[0] )
-//         this.contrincantes = this.contrincantes.map(j => {return jugadores[j]})
-        
-//         console.log('contrincantes',this.contrincantes);
-        
-        
-
-
-//         console.log('contrincantes numero random', this.contrincantes[numeroRandom]);
-        
-
-
-//         const partidasUnJugador = []
-//         Object.keys(infoPartidasJugadores[numeroRandom]).forEach(key => {
-//             partidasUnJugador.push(infoPartidasJugadores[numeroRandom].key)
-//         })
-
-//         console.log(this.partidasUnJugador);                
+        })                    
         
     }
     
@@ -349,7 +314,6 @@ export default {
                 selectede.push(`${Number(x) + i},${y}`)
             }            
           }
-        //   console.log(selectede);          
           return selectede
       },
 
